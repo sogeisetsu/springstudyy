@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="student" class="org.suyuesheng.spring.s03.pojo.Stusent">
+<!--        普通值注入-->
+        <property name="age" value="19"/>
+<!--        bean注入-->
+        <property name="address" ref="address"/>
+<!--        数组注入-->
+        <property name="strings">
+            <array>
+                <value>你好</value>
+                <value>haha</value>
+                <value>呵呵呵</value>
+                <value>或会后</value>
+            </array>
+        </property>
+<!--        list注入-->
+        <property name="stringList">
+            <list>
+                <value>hello</value>
+                <value>nininini</value>
+            </list>
+        </property>
+<!--        map注入-->
+        <property name="studentMap">
+            <map>
+                <entry key="name" value="XioaMiHen"/>
+                <entry key="age" value="14"/>
+                <entry key="lastName" value="Xiao"/>
+<!--                为home指定的值为null-->
+                <entry key="home">
+                    <null/>
+                </entry>
+            </map>
+        </property>
+<!--        set注入-->
+        <property name="stringSet">
+            <set>
+                <value>hhset</value>
+                <value>llset</value>
+            </set>
+        </property>
+<!--        properties注入-->
+        <property name="properties">
+            <props>
+                <prop key="adamin">root</prop>
+                <prop key="pwd">dwef</prop>
+            </props>
+        </property>
+
+    </bean>
+
+    <bean id="address" class="org.suyuesheng.spring.s03.pojo.Address">
+        <property name="xRay" value="12.5"/>
+        <property name="yRay" value="14.6"/>
+    </bean>
+</beans>

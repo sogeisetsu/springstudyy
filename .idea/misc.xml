@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/spstu01/pom.xml" />
+        <option value="$PROJECT_DIR$/sptu02/pom.xml" />
+        <option value="$PROJECT_DIR$/sptu03/pom.xml" />
+        <option value="$PROJECT_DIR$/sptu04/pom.xml" />
+        <option value="$PROJECT_DIR$/sptu05/pom.xml" />
+        <option value="$PROJECT_DIR$/sptu06-config/pom.xml" />
+        <option value="$PROJECT_DIR$/sptu07-AOP/pom.xml" />
+        <option value="$PROJECT_DIR$/sptu08-mybatis-spring/pom.xml" />
+        <option value="$PROJECT_DIR$/sptu08-mybatis-spring1-event/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8 (2)" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+</project>

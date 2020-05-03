@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <import resource="beans2.xml"/>
+    <bean id="user" class="org.suyuesheng.spring.pojo.User">
+        <constructor-arg name="id" value="134"/>
+        <constructor-arg name="name" value="老刘"/>
+        <constructor-arg name="pwd" value="12324"/>
+    </bean>
+
+    <!--    id 是生成的对象名称  class是类-->
+    <!--    name是类的属性名 value是类的属性的内容-->
+    <!--    ref元素引用另一个 bean 定义的 name。-->
+    <!--    bean标签的name指定别名-->
+    <bean id="hello" class="org.suyuesheng.spring.pojo.Hello" name="hello3,hello4,hello5">
+        <property name="str" value="Hello"/>
+<!--        ref 指的是beans.xml里面曾经定义过这个类-->
+        <property name="user" ref="user"/>
+    </bean>
+
+    <alias name="hello" alias="hello2"/>
+</beans>

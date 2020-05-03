@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.suyuesheng.smybatis.event.mapper.UserMapper">
+    <cache
+            eviction="FIFO"
+            flushInterval="60000"
+            size="512"
+            readOnly="true"/>
+    <select id="findAll" resultType="user">
+        select * from mybatisstudy.user
+    </select>
+
+    <select id="findById" resultType="user" parameterType="_int">
+        select * from mybatisstudy.user
+        <where>
+            id=#{id}
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="user">
+        insert into mybatisstudy.user values(#{id},#{name},#{pwd})
+    </insert>
+
+    <delete id="deleteById" parameterType="_int">
+        delete from mybatisstudy.user
+        <where>
+            id=#{id}
+        </where>
+    </delete>
+</mapper>

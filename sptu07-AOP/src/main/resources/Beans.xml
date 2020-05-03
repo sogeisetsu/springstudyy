@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:annotation-config/>
+<!--    第一种方式-->
+    <bean id="user" class="org.suyuesheng.spring.sptu07.service.UserImpl"/>
+    <bean id="afterLog" class="org.suyuesheng.spring.sptu07.log.ALog"/>
+    <bean id="beforeLog" class="org.suyuesheng.spring.sptu07.log.BLog"/>
+
+    <aop:config>
+<!--        配置切入点-->
+        <aop:pointcut id="pointcut" expression="execution(* org.suyuesheng.spring.sptu07.service.UserImpl.*(..))"/>
+<!--        配置环绕增强-->
+        <aop:advisor advice-ref="afterLog" pointcut-ref="pointcut"/>
+        <aop:advisor advice-ref="beforeLog" pointcut-ref="pointcut"/>
+    </aop:config>
+
+<!--    第二种方式-->
+    <bean id="person" class="org.suyuesheng.spring.sptu07.service.PersonImpl"/>
+    <bean id="personLog" class="org.suyuesheng.spring.sptu07.log.PersonLog"/>
+
+    <aop:config>
+<!--        自定义切面-->
+<!--        ref 指定切面类-->
+        <aop:aspect ref="personLog" >
+            <aop:pointcut id="bpl" expression="execution(* org.suyuesheng.spring.sptu07.service.PersonImpl.*(..))"/>
+<!--            ref指定切入点-->
+            <aop:before method="methodBefore" pointcut-ref="bpl"/>
+            <aop:after method="afterMethod" pointcut-ref="bpl"/>
+        </aop:aspect>
+    </aop:config>
+<!--第三种方式-->
+<!--    自动代理，使用了这个标签，才可以使用aop开发-->
+    <aop:aspectj-autoproxy/>
+    <bean id="phone" class="org.suyuesheng.spring.sptu07.service.PhoneImpl"/>
+    <bean id="AnnoLog" class="org.suyuesheng.spring.sptu07.log.AnnotationLog"/>
+</beans>

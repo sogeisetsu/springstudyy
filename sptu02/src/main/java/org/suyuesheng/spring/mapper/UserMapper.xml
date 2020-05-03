@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.suyuesheng.spring.mapper.UserMapper">
+
+    <cache
+            eviction="FIFO"
+            flushInterval="60000"
+            size="512"
+            readOnly="true"/>
+    <sql id="selectBase">
+        select * from mybatisstudy.user
+    </sql>
+    <select id="findAll" resultType="user">
+        <include refid="selectBase"/>
+    </select>
+
+    <select id="findById" parameterType="_int" resultType="user">
+        <include refid="selectBase"/>
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+        </where>
+    </select>
+
+</mapper>

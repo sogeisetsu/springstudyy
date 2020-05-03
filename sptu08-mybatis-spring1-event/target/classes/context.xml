@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:annotation-config/>
+    <import resource="MybatisDaoBeans.xml"/>
+    <bean id="user" class="org.suyuesheng.smybatis.event.pojo.User">
+    </bean>
+    <bean id="userService" class="org.suyuesheng.smybatis.event.service.UserService">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="user" ref="user"/>
+    </bean>
+<!--    事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <constructor-arg ref="dataSource" />
+    </bean>
+<!--    配置事务增强-->
+    <tx:advice transaction-manager="transactionManager" id="txAdvice">
+        <tx:attributes>
+            <tx:method name="findAll" propagation="REQUIRED"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config proxy-target-class="true">
+<!--        配置切入点-->
+        <aop:pointcut id="txPonitCut" expression="execution(* org.suyuesheng.smybatis.event..*(..)) and !execution(* org.suyuesheng.smybatis.event.TestEv.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPonitCut"/>
+    </aop:config>
+</beans>

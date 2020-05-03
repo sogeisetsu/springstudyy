@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+
+    <bean id="address001" class="org.suyuesheng.spring.sptu04.pojo.Address" p:address="jinan"/>
+    <bean id="address221" class="org.suyuesheng.spring.sptu04.pojo.Address" p:address="jinan1"/>
+    <bean id="addressqew" class="org.suyuesheng.spring.sptu04.pojo.Address" p:address="jinan2"/>
+    <bean id="address21" class="org.suyuesheng.spring.sptu04.pojo.Address" p:address="jinan3"/>
+    <bean id="address" class="org.suyuesheng.spring.sptu04.pojo.Address" p:address="jinan3"/>
+
+    <bean id="user" class="org.suyuesheng.spring.sptu04.pojo.User" autowire="byName">
+        <property name="age" value="12"/>
+        <property name="name" value="ll"/>
+    </bean>
+</beans>

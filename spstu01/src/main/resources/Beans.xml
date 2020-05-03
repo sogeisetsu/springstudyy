@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="user" class="org.suyuesheng.spring.pojo.User">
+        <property name="id" value="1"/>
+        <property name="name" value="0"/>
+        <property name="pwd" value="0"/>
+    </bean>
+
+    <!--    id 是生成的对象名称  class是类-->
+    <!--    name是类的属性名 value是类的属性的内容-->
+    <!--    ref元素引用另一个 bean 定义的 name。-->
+    <bean id="hello" class="org.suyuesheng.spring.pojo.Hello">
+        <property name="str" value="Hello"/>
+<!--        ref 指的是beans.xml里面曾经定义过这个类-->
+        <property name="user" ref="user"/>
+    </bean>
+
+</beans>

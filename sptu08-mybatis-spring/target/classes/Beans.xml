@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+    <context:annotation-config/>
+    <context:component-scan base-package="org.suyuesheng.spring.mybatis"/>
+
+<!--    配置dataSource-->
+<!--    相当于配置mybatis.config.xml里面的datasourse标签-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3307/mybatisstudy?characterEncoding=utf-8&amp;useUnicode=true"/>
+        <property name="username" value="root"/>
+        <property name="password" value="15990904343"/>
+
+    </bean>
+
+<!--    配置sqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!--        相当于<datasouse>-->
+        <property name="dataSource" ref="dataSource" />
+<!--        指定配置mybatis.config.xml的位置，这样可以相互补充，比如在sqlSessionFactory的bean里可以配置typealise，也可以在mybatis.config.xml配置-->
+        <property name="configLocation" value="classpath:mybatis.config.xml"/>
+<!--        相当于<mappers><mapper resource=org/suyuesheng/spring/mybatis/mapper/*.xml/></mappers>-->
+<!--        指定mapper.xml的位置-->
+        <property name="mapperLocations" value="classpath:org/suyuesheng/spring/mybatis/mapper/*.xml"/>
+    </bean>
+
+    <bean id="user" class="org.suyuesheng.spring.mybatis.pojo.User"/>
+
+<!--    配置sqlsession-->
+<!--    SqlSessionTemplate是一个代理类，内部它会为每次请求创建线程安全的sqlsession，并与Spring进行集成，在方法执行完毕之后会自动关闭。-->
+<!--    配置好的SqlSession将自动完成commit，并在执行完sql之后自动close。-->
+    <bean id="sqlsession" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+<!--        只能通过构造器注入，因为没有setter方法-->
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+
+<!--    配置mapper-->
+    <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="org.suyuesheng.spring.mybatis.mapper.UserMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+<!--    获取mapper的其他方法-->
+<!--   法二：使用实现mapper接口的方法来获取mapper -->
+    <bean id="userMapper1" class="org.suyuesheng.spring.mybatis.mapper.UserMapperImpl">
+        <property name="sqlSession" ref="sqlsession"/>
+    </bean>
+<!--    法三：借助SqlSessionDaoSupport-->
+    <bean id="userMapperImpl2" class="org.suyuesheng.spring.mybatis.mapper.UserMapperImpl2">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+</beans>
