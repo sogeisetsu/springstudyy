@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <context:component-scan base-package="org.suyuesheng.spring7"/>
+    <context:annotation-config/>
+    <import resource="springmvcconfig.xml"/>
+    <context:property-placeholder location="classpath:druid.properties"/>
+<!--    datasource-->
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.name}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <property name="initialSize" value="${jdbc.initialSize}"/>
+        <property name="minIdle" value="${jdbc.minIdle}"/>
+        <property name="maxActive" value="${jdbc.maxActive}"/>
+
+        <property name="maxWait" value="${jdbc.maxWait}"/>
+
+        <property name="timeBetweenEvictionRunsMillis" value="${jbbc.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}"/>
+
+        <property name="validationQuery" value="${jdbc.validationQuery}"/>
+        <property name="testWhileIdle" value="true"/>
+    </bean>
+<!--    sqlsessionFactory-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatisConfig.xml"/>
+        <property name="mapperLocations" value="classpath:org/suyuesheng/spring7/mapper/*.xml"/>
+    </bean>
+<!--sqlsession-->
+    <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSessionTemplate" scope="prototype">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean class="org.suyuesheng.spring7.mapper.UserMapperImpl" id="userMapper">
+        <property name="sqlSession" ref="sqlSessionTemplate"/>
+    </bean>
+    <bean class="org.suyuesheng.spring7.services.UserService" id="userservice">
+        <property name="userMapper" ref="userMapper"/>
+    </bean>
+</beans>
