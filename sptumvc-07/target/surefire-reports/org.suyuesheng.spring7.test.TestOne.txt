@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.suyuesheng.spring7.test.TestOne
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.298 s - in org.suyuesheng.spring7.test.TestOne

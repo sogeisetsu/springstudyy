@@ -3,13 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-
+<!--静态资源的名字和controller的路径名字相同，需要特殊配置让其走tomcat默认的servlet-->
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/login.html</url-pattern>
+    <url-pattern>/regist.html</url-pattern>
+  </servlet-mapping>
+<!--  配置spring的DispatcherServlet-->
   <servlet>
     <servlet-name>springmvc06</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:springmvcconfig.xml</param-value>
+      <param-value>classpath:Beans.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -17,6 +23,8 @@
     <servlet-name>springmvc06</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  
+<!--配置字符编码-->
 
   <filter>
     <filter-name>filterForCharSet</filter-name>
@@ -39,5 +47,25 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+<!--  配置session存活时间-->
+  <session-config>
+    <session-timeout>40</session-timeout>
+  </session-config>
+<!--  配置初始页面-->
+  <welcome-file-list>
+    <welcome-file>login.html</welcome-file>
+  </welcome-file-list>
 
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error/sea-404page.html</location>
+  </error-page>
+  <error-page>
+    <error-code>405</error-code>
+    <location>/error/405.html</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/error/500.html</location>
+  </error-page>
 </web-app>

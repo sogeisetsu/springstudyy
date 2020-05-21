@@ -13,11 +13,11 @@
         <result property="userName" column="username"/>
     </resultMap>
     <select id="findAll" resultType="user">
-        select * from springstudy.user
+        select * from User
     </select>
 
     <select id="findById" resultType="user" parameterType="_int">
-        select * from springstudy.user
+        select * from User
         <where>
             <if test="uId!=null">
                 uid=#{uId}
@@ -26,18 +26,48 @@
     </select>
 
     <insert id="insert" parameterType="user">
-        insert into springstudy.user
+        insert into User
         <choose>
             <when test="uId==null">
-                (username, password, status, code, date)
-                values(#{userName},#{password},#{status},#{code},#{date})
+                (username, password, status, code, date,email)
+                values(#{userName},#{password},#{status},#{code},#{date},#{email})
             </when>
             <when test="uId!=null">
-                (uid, username, password, status, code, date)
-                values(#{uId},#{userName},#{password},#{status},#{code},#{date})
+                (uid, username, password, status, code, date,email)
+                values(#{uId},#{userName},#{password},#{status},#{code},#{date},#{email})
             </when>
         </choose>
     </insert>
 
+    <update id="updateActive" parameterType="string">
+        update User
+        <set>
+            <if test="code!=null">
+                status='Y'
+            </if>
+        </set>
+        <where>
+            <if test="code!=null">
+                code=#{code}
+            </if>
+        </where>
+    </update>
 
+    <select id="findByCode" parameterType="string" resultType="user">
+        select * from User
+        <where>
+            <if test="code!=null">
+                code=#{code}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByName" parameterType="string" resultType="user">
+        select * from User
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            <if test="username!=null">
+                username=#{username}
+            </if>
+        </trim>
+    </select>
 </mapper>

@@ -15,4 +15,21 @@
     <import resource="mybatisBean.xml"/>
     <import resource="springmvcconfig.xml"/>
     <bean class="org.suyuesheng.spring7.pojo.User" id="user"/>
+<!--    配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/"/>
+            <mvc:mapping path="/**"/>
+            <mvc:mapping path="/**/*.html"/>
+            <mvc:mapping path="/index.html"/>
+            <mvc:exclude-mapping path="/login*"/>
+            <mvc:exclude-mapping path="/regist*"/>
+            <mvc:exclude-mapping path="/**/*.js"/>
+            <mvc:exclude-mapping path="/**/*.css"/>
+            <mvc:exclude-mapping path="/bootstrap-3.3.7-dist/**"/>
+            <mvc:exclude-mapping path="/img/**"/>
+            <mvc:exclude-mapping path="/active"/>
+            <bean class="org.suyuesheng.spring7.interceptor.Logininterceptor" id="logininterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

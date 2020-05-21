@@ -11,4 +11,10 @@ public interface UserMapper {
     User findById(@Param("uId") int id);
 
     boolean insert(User user);
+
+    boolean updateActive(@Param("code") String code);
+
+    User findByCode(@Param("code") String code);
+
+    User findByName(@Param("username") String username);
 }

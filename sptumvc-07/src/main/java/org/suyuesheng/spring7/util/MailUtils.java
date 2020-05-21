@@ -21,10 +21,14 @@ public final class MailUtils {
     /* 发送验证信息的邮件 */
     public static boolean sendMail(String to, String text, String title){
         try {
+            final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
             final Properties props = new Properties();
+            props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
+            props.setProperty("mail.smtp.socketFactory.fallback", "false");
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.host", "smtp.163.com");
-
+            props.setProperty("mail.smtp.port", "465");
+            props.setProperty("mail.smtp.socketFactory.port", "465");
             // 发件人的账号
             props.put("mail.user", USER);
             //发件人的密码
@@ -42,6 +46,7 @@ public final class MailUtils {
             };
             // 使用环境属性和授权信息，创建邮件会话
             Session mailSession = Session.getInstance(props, authenticator);
+
             // 创建邮件消息
             MimeMessage message = new MimeMessage(mailSession);
             // 设置发件人
@@ -52,7 +57,6 @@ public final class MailUtils {
              */
             InternetAddress form = new InternetAddress(username, "节能减排小组");
             message.setFrom(form);
-
             // 设置收件人
             InternetAddress toAddress = new InternetAddress(to);
             message.setRecipient(Message.RecipientType.TO, toAddress);

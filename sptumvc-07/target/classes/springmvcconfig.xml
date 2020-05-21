@@ -12,7 +12,6 @@
 
     <context:annotation-config/>
     <context:component-scan base-package="org.suyuesheng.spring7"/>
-    <mvc:default-servlet-handler/>
     <!--        @Response乱码问题解决-->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" >
         <property name="messageConverters">
@@ -30,6 +29,7 @@
             </list>
         </property>
     </bean>
+    <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="internalResourceViewResolver">

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
     <context:component-scan base-package="org.suyuesheng.spring7"/>
     <context:annotation-config/>
     <import resource="springmvcconfig.xml"/>
@@ -34,15 +35,36 @@
         <property name="mapperLocations" value="classpath:org/suyuesheng/spring7/mapper/*.xml"/>
     </bean>
 <!--sqlsession-->
-    <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSessionTemplate" scope="prototype">
-        <constructor-arg index="0" ref="sqlSessionFactory"/>
+<!--    MapperScannerConfigurer会自动代理，其实不用配置-->
+<!--    <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSessionTemplate" scope="prototype">-->
+<!--        <constructor-arg index="0" ref="sqlSessionFactory"/>-->
+<!--    </bean>-->
+
+    <!--    自动代理mapper接口-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" id="mapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="org.suyuesheng.spring7.mapper"/>
     </bean>
 
-<!--mapper或service类-->
-    <bean class="org.suyuesheng.spring7.mapper.UserMapperImpl" id="userMapper">
-        <property name="sqlSession" ref="sqlSessionTemplate"/>
-    </bean>
     <bean class="org.suyuesheng.spring7.services.UserService" id="userservice">
         <property name="userMapper" ref="userMapper"/>
     </bean>
+
+<!--    配置事务管理器-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+
+    <tx:advice transaction-manager="transactionManager" id="interceptor">
+        <tx:attributes >
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="tx" expression="execution(* org.suyuesheng.spring7.services.*.*(..))"/>
+        <aop:advisor advice-ref="interceptor" pointcut-ref="tx"/>
+    </aop:config>
 </beans>

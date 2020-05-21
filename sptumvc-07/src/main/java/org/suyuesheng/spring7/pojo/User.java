@@ -16,6 +16,16 @@ public class User {
     @Value("001")
     private String code;
 
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date date;
     public User() {
@@ -40,6 +50,12 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.date = date;
+    }
+
+    public User(String userName, String password, String email) {
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
     }
 
     public Date getDate() {
@@ -98,6 +114,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", status='" + status + '\'' +
                 ", code='" + code + '\'' +
+                ", email='" + email + '\'' +
                 ", date=" + date +
                 '}';
     }

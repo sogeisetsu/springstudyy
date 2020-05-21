@@ -3,8 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="js/jquery-1.11.0.js"></script>
+    <script src="js/jquery.serializejson.js"></script>
+    <script>
+        $(function () {
+            $('#tsubmit').click(function () {
+                $.ajax({
+                    url:"try/ty",
+                    contentType:"application/json;charset=UTF-8",
+                    data:JSON.stringify($('#tform').serializeJSON()),
+                    type:"post",
+                    success:function (data) {
+                        $('#ggh2').html(JSON.stringify(data));
+                    }
+                })
+            })
+        })
+    </script>
 </head>
 <body>
 <h1>你好，hello</h1>
+<form id="tform">
+    <input type="text" name="userName" placeholder="用户名">
+    <hr/>
+    <input type="password" name="password" placeholder="密码">
+    <hr/>
+    <input type="email" name="email" placeholder="邮箱">
+    <hr/>
+    <input type="button" value="提交" id="tsubmit">
+</form>
+<h2 id="ggh2"></h2>
 </body>
 </html>
