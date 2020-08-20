@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.11.0.js"></script>
+    <script src="js/jquery.serializejson.js"></script>
+    <style>
+        #postForm,.formFlex{
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-around;
+            align-items: center;
+        }
+        #submitFromPostFrom,.submitFromPostFrom{
+            margin-right: 500px;
+        }
+        .tittle-one{
+            text-align: center;
+            text-shadow: rgba(203,99,28,0.46) 5px 3px 3px;
+        }
+        .tittle-two{
+            text-shadow: rgba(159,83,87,0.5) 5px 3px 3px;
+        }
+    </style>
+    <script>
+        $(function () {
+            $('#jsonOneSuccess').hide();
+            $('#postJsonOneByButton').click(function () {
+                console.log(JSON.stringify($('#postJsonAndBeAcceptingByResponseBodyForm').serializeJSON()));
+                console.log($('#postJsonAndBeAcceptingByResponseBodyForm').serializeJSON());
+                $.ajax({
+                    url:"/json/getJsonOne",
+                    contentType:"application/json;charset=UTF-8",
+                    data:JSON.stringify($('#postJsonAndBeAcceptingByResponseBodyForm').serializeJSON()),
+                    type:"post",
+                    success:function (data) {
+                        $('#jsonOneSuccess').text(data).css({
+                           "backgroundColor":"#cb3327",
+                           "color":"#b2bdcb"
+                        });
+                        $('#jsonOneSuccess').hide().delay(500).slideDown("slow","swing");
+                        alert(data)
+                    }
+                })
+            });
+            $('#postUserByJsonSuccess').hide();
+            $('#postUserByJsonSubmit').click(function () {
+                console.log(JSON.stringify($('#postUserByJson').serializeJSON()));
+                console.log($('#postUserByJson').serialize());
+                $.ajax({
+                    url: "/sql/insert",
+                    data: JSON.stringify($('#postUserByJson').serializeJSON()),
+                    type: "post",
+                    contentType: "application/json;charset=UTF-8",
+                    // dataType:"json",
+                    success:function (data) {
+                        $('#postUserByJsonSuccess').text(data).css({
+                            "backgroundColor":"#3ecb05",
+                        });
+                        $('#postUserByJsonSuccess').hide().delay(500).fadeIn("slow","swing").delay(200).fadeTo("slow",0.75,"swing");
+                        console.log(data);
+                        // for(let key in data){
+                        //     console.log(data[key]);
+                        // }
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<h1 class="tittle-one">前端向后端发送数据</h1>
+<hr/>
+<h2 class="tittle-two">后端用实体类接收</h2>
+<form id="postForm" action="/json/one" method="post">
+    <label for="postBirthday" >生日：
+        <input type="datetime-local" name="birthday" placeholder="请输入时间" id="postBirthday" step="01">
+    </label>
+    <label for="postAge">年龄：
+        <input type="number" name="age" placeholder="请输入年龄" id="postAge">
+    </label>
+    <label for="postName">姓名：
+        <input type="text" name="name" placeholder="请输入用户名" id="postName">
+    </label>
+    <input type="submit" value="提交" id="submitFromPostFrom">
+</form>
+
+<br>
+<hr/>
+<h2 class="tittle-two">提交日期，精确到秒</h2>
+<form action="/json/date" method="post" id="postDate" class="formFlex">
+<!--    这样就可以精确到秒-->
+    <input name="date" type="datetime-local" step="01">
+    <br>
+    <input type="submit" value="提交日期" class="submitFromPostFrom">
+</form>
+<br>
+<hr/>
+<h2 class="tittle-two">提交日期，精确到天，后端用String接收</h2>
+<form action="/json/dateString" method="post"  class="formFlex">
+    <input type="date" name="date">
+    <br>
+    <input type="submit" value="提交日期" class="submitFromPostFrom">
+</form>
+<hr/>
+<h2 class="tittle-two">向后端提交json</h2>
+<form id="postJsonAndBeAcceptingByResponseBodyForm" class="formFlex" >
+    <input type="text" placeholder="请输入数据" name="text" id="postJsonOneWhichJustPostString">
+    <input type="button" value="提交" id="postJsonOneByButton">
+</form>
+<div id="jsonOneSuccess" style="background-color: cornflowerblue;">
+
+</div>
+
+<hr/>
+<h2 class="tittle-two">向后端提交json之提交User</h2>
+<form id="postUserByJson" class="formFlex">
+    <label for="postUserByJsonAge">年龄
+        <input type="number" placeholder="请输入年龄" id="postUserByJsonAge" name="age">
+    </label>
+    <label for="postUserByJsonName">姓名
+        <input name="name" type="text" placeholder="姓名" id="postUserByJsonName">
+    </label>
+    <label for="postUserByJsonBirthday">出生日期
+        <input name="birthday" type="datetime-local" step="01" id="postUserByJsonBirthday">
+    </label>
+    <input type="button" value="提交" id="postUserByJsonSubmit" class="submitFromPostFrom">
+</form>
+<div id="postUserByJsonSuccess"></div>
+
+</body>
+</html>

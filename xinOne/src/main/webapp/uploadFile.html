@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传文件</title>
+    <script src="js/jquery-1.11.0.js"></script>
+    <script src="js/jquery.serializejson.js"></script>
+    <script>
+        $(function () {
+            $('#submitFileOne').click(function () {
+                let formData = new FormData($('#upLoadFileOne')[0]);
+                $.ajax({
+                    url:"/file/one",
+                    contentType:false,
+                    processData:false,
+                    cache:false,
+                    type:"post",
+                    data:formData,
+                    success:function (data) {
+                        console.log(data);
+                        if(data.aBoolean==false){
+                            console.log(data.errorMsg);
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<h1>上传文件</h1>
+<div>
+    <form id="upLoadFileOne">
+        <label for="selectFileOne">请选择文件
+            <input id="selectFileOne" type="file" name="file" placeholder="上传文件" >
+        </label>
+        <input type="button" value="提交" id="submitFileOne" >
+    </form>
+</div>
+</body>
+</html>

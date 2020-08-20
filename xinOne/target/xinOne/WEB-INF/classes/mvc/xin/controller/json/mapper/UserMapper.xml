@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mvc.xin.controller.json.mapper.UserMapper">
+    <cache/>
+    <resultMap id="userMap" type="user">
+        <result column="birthday" property="birthday"/>
+    </resultMap>
+    <select id="findAll" resultMap="userMap">
+        select age, name, birthday from su0804.user
+    </select>
+
+    <insert id="insertUser" parameterType="user">
+        <if test="#{name}!=null and #{birthday}!=null">
+            insert into su0804.user(age, name, birthday) VALUES(#{age},#{name},#{birthday})
+        </if>
+    </insert>
+
+    <select id="findDate" parameterType="string" resultType="java.util.Date">
+        select birthday from su0804.user where name=#{username}
+    </select>
+</mapper>
